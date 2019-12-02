@@ -12,5 +12,7 @@ class ApplicationController < ActionController::Base
   
   def counts(member)
     @count_tweets = member.tweets.count
+    @count_followings = member.followings.count
+    @count_followers = member.followers.count
   end
 end

@@ -16,6 +16,6 @@
       <li class="nav-item"><a href="<%= followings_member_path(@member) %>" class="nav-link <%= 'active' if current_page?(followings_member_path(@member)) %>">フォロー<span class="badge badge-secondary"><%= @count_followings %></span></a></li>
       <li class="nav-item"><a href="<%= followers_member_path(@member) %>" class="nav-link <%= 'active' if current_page?(followers_member_path(@member)) %>">フォロワー<span class="badge badge-secondary"><%= @count_followers %></span></a></li>
     </ul>
-    <%= render 'tweets/tweets', tweets: @tweets %>
+    <%= render 'members', members: @followings %>
   </div>
 </div>

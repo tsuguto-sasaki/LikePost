@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :require_member_logged_in, only: [:index, :show]
+  before_action :require_member_logged_in, only: [:index, :show, :followings, :followers]
   
   def index
     @members = Member.order(id: :desc).page(params[:page]).per(10)
@@ -26,10 +26,22 @@ class MembersController < ApplicationController
       render :new
     end
   end
-end
+  
+  def followings
+    @member = Member.find(params[:id])
+    @followings = @member.followings.page(params[:page])
+    counts(@member)
+  end
+  
+  def followers
+    @member = Member.find(params[:id])
+    @followers = @member.followers.page(params[:page])
+    counts(@member)
+  end
+  
+  private
 
-private
-
-def member_params
-  params.require(:member).permit(:name,:email,:password,:password_confirmation)
+  def member_params
+    params.require(:member).permit(:name,:email,:password,:password_confirmation)
+  end
 end

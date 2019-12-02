@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_29_100956) do
+ActiveRecord::Schema.define(version: 2019_12_01_045805) do
 
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -18,6 +18,16 @@ ActiveRecord::Schema.define(version: 2019_11_29_100956) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "relationships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "member_id"
+    t.bigint "follow_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follow_id"], name: "index_relationships_on_follow_id"
+    t.index ["member_id", "follow_id"], name: "index_relationships_on_member_id_and_follow_id", unique: true
+    t.index ["member_id"], name: "index_relationships_on_member_id"
   end
 
   create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -28,5 +38,7 @@ ActiveRecord::Schema.define(version: 2019_11_29_100956) do
     t.index ["member_id"], name: "index_tweets_on_member_id"
   end
 
+  add_foreign_key "relationships", "members"
+  add_foreign_key "relationships", "members", column: "follow_id"
   add_foreign_key "tweets", "members"
 end
