@@ -8,7 +8,7 @@ class TweetsController < ApplicationController
       flash[:success] = 'Tweetしました！'
       redirect_to root_url
     else
-      @tweets = current_member.tweets.order(id: :desc).page(params[:page])
+      @tweets = current_member.feed_tweets.order(id: :desc).page(params[:page])
       flash.now[:danger] = 'Tweet出来ません><'
       render 'toppages/index'
     end

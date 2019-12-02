@@ -26,4 +26,8 @@ class Member < ApplicationRecord
   def following?(other_member)
     self.followings.include?(other_member)
   end
+  
+  def feed_tweets
+    Tweet.where(member_id: self.following_ids + [self.id])
+  end
 end
