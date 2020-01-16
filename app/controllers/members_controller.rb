@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  before_action :require_member_logged_in, only: [:index, :show, :followings, :followers]
+  before_action :require_member_logged_in, only: [:index, :show, :followings, :followers, :likes]
   
   def index
     @members = Member.order(id: :desc).page(params[:page]).per(10)
@@ -39,9 +39,20 @@ class MembersController < ApplicationController
     counts(@member)
   end
   
+  def goods
+    @member = Member.find(params[:id])
+    @likeposts = @member.likeposts.page(params[:page])
+    counts(@member)
+  end
+  
+  def search
+      @members = current_member.followings.where('name LIKE ?', "%#{params[:member][:search]}%")
+      @tweet = Tweet.where(member_id:  @members)
+  end
+  
   private
 
   def member_params
-    params.require(:member).permit(:name,:email,:password,:password_confirmation)
+    params.require(:member).permit(:name,:email,:password,:password_confirmation,:search)
   end
 end

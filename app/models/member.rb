@@ -11,6 +11,8 @@ class Member < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :member
+  has_many :likes
+  has_many :likeposts, through: :likes, source: :tweet
   
   def follow(other_member)
     unless self == other_member
@@ -29,5 +31,18 @@ class Member < ApplicationRecord
   
   def feed_tweets
     Tweet.where(member_id: self.following_ids + [self.id])
+  end
+  
+  def good(tweet)
+    likes.find_or_create_by(tweet_id: tweet.id)
+  end
+  
+  def bad(tweet)
+    like = likes.find_by(tweet_id: tweet.id)
+    like.destroy if like
+  end
+  
+  def likepost?(tweet)
+    self.likeposts.include?(tweet)
   end
 end
