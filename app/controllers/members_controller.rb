@@ -2,7 +2,7 @@ class MembersController < ApplicationController
   before_action :require_member_logged_in, only: [:index, :show, :followings, :followers, :likes]
   
   def index
-    @members = Member.order(id: :desc).page(params[:page]).per(10)
+    @members = Member.order(id: :desc).page(params[:page]).per(5)
   end
 
   def show
@@ -46,7 +46,12 @@ class MembersController < ApplicationController
   end
   
   def search
-      @members = current_member.followings.where('name LIKE ?', "%#{params[:member][:search]}%")
+     if params[:member][:search] == nil || params[:member][:search] == ""
+        flash[:danger] = "フォローメンバーを入力して下さい！"
+        redirect_back(fallback_location: root_path)
+      else
+        @members = current_member.followings.where('name LIKE ?', "%#{params[:member][:search]}%")
+      end
       @tweet = Tweet.where(member_id:  @members)
   end
   

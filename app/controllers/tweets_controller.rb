@@ -9,7 +9,7 @@ class TweetsController < ApplicationController
       redirect_to root_url
     else
       @tweets = current_member.feed_tweets.order(id: :desc).page(params[:page])
-      flash.now[:danger] = 'Tweet出来ません><'
+      flash.now[:danger] = 'Tweet出来ません! 1~200文字以内で投稿して下さい！><'
       render 'toppages/index'
     end
   end
