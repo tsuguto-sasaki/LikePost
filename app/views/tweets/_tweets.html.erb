@@ -1,7 +1,7 @@
 <%= form_with(url: search_path,scope: :member, local: true) do |f| %>
      <%= f.label :search, '検索' %>
      <h3>※フォローしてるメンバーの名前を検索して下さい！</h3><br>
-     <p>※フォローメンバーのツイート一覧が表示されます</p><br>
+     <p>※フォローメンバーとフォローメンバーのツイート一覧が表示されます</p><br>
      <p>※フォローメンバーがツイートしてなかったら表示されません。</p>
      <%= f.text_field :search, class: "form-control mr-sm-2", placeholder: 'following_member_name' %>
      <%= f.submit 'Search', class: "btn btn-outline-success my-2 my-sm-0" %>
