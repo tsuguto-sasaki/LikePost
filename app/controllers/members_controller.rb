@@ -46,7 +46,7 @@ class MembersController < ApplicationController
   end
   
   def search
-     if params[:member][:search] == nil || params[:member][:search] == ""
+    if params[:member][:search] == nil || params[:member][:search] == ""
         flash[:danger] = "フォローメンバーを入力して下さい！"
         redirect_back(fallback_location: root_path)
       else
